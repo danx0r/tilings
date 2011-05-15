@@ -2,6 +2,8 @@
  * @author dbm
  */
 
+TRI5=1;
+
 function draw(verts, fill) {
     con.beginPath();
     con.moveTo(verts[0][0],verts[0][1]);
@@ -40,13 +42,19 @@ function poly(verts, color){
             var D = avg(this.verts[1], this.verts[2], 1.0/2.0);
             var F = avg(this.verts[2], A, 1.0/2.0);
             var E = avg(D, F, 1.0/2.0);
-            var s1 = new poly([A, B, E, F], this.color)
-            var s2 = new poly([B, C, D, E], this.color)
-            var t1 = new poly([this.verts[0], this.verts[2], A], this.color)
-            var t2 = new poly([D, this.verts[1], C], this.color)
-            var t3 = new poly([this.verts[2], D, F], this.color)
-            s1.reverse();
-            s2.reverse();
+            if (TRI5) {
+                var s1 = new poly([D, A, C], this.color);
+                var s2 = new poly([A, D, F], this.color)//"rgb(200,0,0)")
+            }
+            else {
+                var s1 = new poly([A, B, E, F], this.color);
+                var s2 = new poly([B, C, D, E], this.color);
+                //s1.reverse();
+                s2.reverse();
+            }
+            var t1 = new poly([this.verts[0], this.verts[2], A], this.color);
+            var t2 = new poly([D, this.verts[1], C], this.color);
+            var t3 = new poly([this.verts[2], D, F], this.color);
             return new plist([s1, s2, t1, t2, t3]);
         }
         // if square.. (assume clockwise)

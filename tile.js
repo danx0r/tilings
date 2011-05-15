@@ -2,7 +2,7 @@
  * @author dbm
  */
 
-TRI5=1;
+TRI5=0;
 
 function draw(verts, fill) {
     con.beginPath();
@@ -27,6 +27,7 @@ function avg(a, b, f) {
 function poly(verts, color){
     this.verts = verts;
     this.color = color;
+    this.color = "rgb("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+")";
     this.draw = function(){
         draw(this.verts, this.color);
     }
@@ -49,8 +50,8 @@ function poly(verts, color){
             else {
                 var s1 = new poly([A, B, E, F], this.color);
                 var s2 = new poly([B, C, D, E], this.color);
-                //s1.reverse();
-                s2.reverse();
+                s1.reverse();
+                //s2.reverse();
             }
             var t1 = new poly([this.verts[0], this.verts[2], A], this.color);
             var t2 = new poly([D, this.verts[1], C], this.color);

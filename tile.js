@@ -38,11 +38,20 @@ function poly(verts, color){
         }
         // if square.. (assume clockwise)
         if (this.verts.length == 4) {
-            var A = avg(this.verts[0], this.verts[1], 2.0/3.0);
-            var B = avg(this.verts[1], this.verts[2], 2.0/3.0);
-            var C = avg(this.verts[2], this.verts[3], 2.0/3.0);
-            var D = avg(this.verts[3], this.verts[0], 2.0/3.0);
-            return new plist([new poly([A,B,C,D], this.color)]);
+            var A = avg(this.verts[0], this.verts[2], 1.0/5.0);
+            var B = avg(this.verts[1], this.verts[3], 1.0/5.0);
+            var C = avg(this.verts[2], this.verts[0], 1.0/5.0);
+            var D = avg(this.verts[3], this.verts[1], 1.0/5.0);
+            var E = avg(A, B, 2.0/3.0);
+            var F = avg(B, C, 2.0/3.0);
+            var G = avg(C, D, 2.0/3.0);
+            var H = avg(D, A, 2.0/3.0);
+            var t1 = new poly([this.verts[0], this.verts[1], H], this.color)
+            var t2 = new poly([this.verts[1], this.verts[2], E], this.color)
+            var t3 = new poly([this.verts[2], this.verts[3], F], this.color)
+            var t4 = new poly([this.verts[3], this.verts[0], G], this.color)
+            var sq = new poly([E,F,G,H], this.color);
+            return new plist([t1, t2, t3, t4, sq]);
         }
         else {
             alert("can't subdivide except tri's and squares")

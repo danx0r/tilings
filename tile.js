@@ -45,6 +45,7 @@ function poly(verts, color){
             var t1 = new poly([this.verts[0], this.verts[2], A], this.color)
             var t2 = new poly([D, this.verts[1], C], this.color)
             var t3 = new poly([this.verts[2], D, F], this.color)
+            s1.reverse();
             return new plist([s1, s2, t1, t2, t3]);
         }
         // if square.. (assume clockwise)
@@ -78,6 +79,14 @@ function poly(verts, color){
             sub.polys[i] = sub.polys[i].subrec(lev-1);
         }
         return sub;
+    }
+    
+    this.reverse = function(){
+        var nu = []
+        for (var i = this.verts.length - 1; i >= 0; i--) {
+            nu.push(this.verts[i]);
+        }
+        this.verts = nu;
     }
 }
 

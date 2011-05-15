@@ -34,7 +34,18 @@ function poly(verts, color){
     
         // if triangle...
         if (this.verts.length == 3) {
-        
+            var A = avg(this.verts[0], this.verts[1], 1.0/5.0);
+            var B = avg(this.verts[0], this.verts[1], 2.0/5.0);
+            var C = avg(this.verts[0], this.verts[1], 3.0/5.0);
+            var D = avg(this.verts[1], this.verts[2], 1.0/2.0);
+            var F = avg(this.verts[2], A, 1.0/2.0);
+            var E = avg(D, F, 1.0/2.0);
+            var s1 = new poly([A, B, E, F], this.color)
+            var s2 = new poly([B, C, D, E], this.color)
+            var t1 = new poly([this.verts[0], this.verts[2], A], this.color)
+            var t2 = new poly([D, this.verts[1], C], this.color)
+            var t3 = new poly([this.verts[2], D, F], this.color)
+            return new plist([s1, s2, t1, t2, t3]);
         }
         // if square.. (assume clockwise)
         if (this.verts.length == 4) {
@@ -76,4 +87,6 @@ main = function(){
     var sq = new poly([[0,0], [500,0], [500,500], [0,500]], "rgb(150,180,150)");
     s2 = sq.subdivide();
     s2.draw();
+    t1 = s2.polys[0].subdivide();
+    t1.draw();
 }

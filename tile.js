@@ -91,12 +91,23 @@ function plist(polys) {
     }
 }
 
+g_lev=1;
 main = function(){
     can = document.getElementById("can");
     con = can.getContext('2d');
 //   draw([[100,100],[300,200],[100,150]], "rgb(150,180,150)");
     var col = "rgb(150,150,150)";
-    var sq = new poly([[0,0], [500,0], [500,500], [0,500]], col);
-    sq = sq.subrec(3);
+    var sq = new poly([[0,0], [1000,0], [1000,1000], [0,1000]], col);
+    sq = sq.subrec(g_lev);
     sq.draw();
+}
+
+up = function() {
+    g_lev++;
+    main();
+}
+
+down = function() {
+    g_lev--;
+    main();
 }

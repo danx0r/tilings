@@ -89,6 +89,8 @@ main = function(){
     s2.draw();
     t1 = s2.polys[0].subdivide();
     t1.draw();
-    s3 = t1.polys[0].subdivide();
+    s3 = t1.polys[0]
+    s3 = new poly([s3.verts[3],s3.verts[2],s3.verts[1],s3.verts[0]], "rgb(230,0,100)")
+    s3 = s3.subdivide();
     s3.draw();
 }

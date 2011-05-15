@@ -2,8 +2,11 @@
  * @author dbm
  */
 
-TRI5=0;
-DECORATE=1;
+TRI5=1;
+DECORATE=0;
+REV1=1;
+REV2=1;
+SIZE=1000;
 
 function draw(verts, fill) {
     con.beginPath();
@@ -27,6 +30,16 @@ function draw(verts, fill) {
             con.closePath();
             con.fillStyle="rgb(200,0,0)";
             con.fill();
+        }
+        if(verts.length==4) {
+            con.beginPath();
+            con.moveTo(verts[0][0], verts[0][1]);
+            con.lineTo(verts[2][0], verts[2][1]);
+            con.stroke();
+            //con.lineTo(verts[3][0], verts[3][1]);
+            //con.closePath();
+            //con.fillStyle="rgb(100,100,100)";
+            //con.fill();
         }
     }
 }
@@ -64,8 +77,8 @@ function poly(verts, color){
             else {
                 var s1 = new poly([A, B, E, F], this.color);
                 var s2 = new poly([B, C, D, E], this.color);
-                s1.reverse();
-                s2.reverse();
+                if(REV1) s1.reverse();
+                if(REV2) s2.reverse();
             }
             var t1 = new poly([this.verts[0], this.verts[2], A], this.color);
             var t2 = new poly([D, this.verts[1], C], this.color);
@@ -133,7 +146,7 @@ main = function(){
     con = can.getContext('2d');
 //   draw([[100,100],[300,200],[100,150]], "rgb(150,180,150)");
     var col = "rgb(150,150,150)";
-    var sq = new poly([[0,0], [1000,0], [1000,1000], [0,1000]], col);
+    var sq = new poly([[0,0], [SIZE,0], [SIZE,SIZE], [0,SIZE]], col);
     sq = sq.subrec(g_lev);
     sq.draw();
 }

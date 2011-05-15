@@ -3,6 +3,7 @@
  */
 
 TRI5=0;
+DECORATE=1;
 
 function draw(verts, fill) {
     con.beginPath();
@@ -15,6 +16,19 @@ function draw(verts, fill) {
     con.fillStyle=fill;
     con.fill();
     con.stroke();
+    if(DECORATE) {
+        if(verts.length==3) {
+            var A = avg(verts[2], verts[1], 1.0/2.0);
+            con.beginPath();
+            con.moveTo(verts[0][0], verts[0][1]);
+            con.lineTo(A[0], A[1]);
+            con.stroke();
+            con.lineTo(verts[1][0], verts[1][1]);
+            con.closePath();
+            con.fillStyle="rgb(200,0,0)";
+            con.fill();
+        }
+    }
 }
 
 // return average point at f way between a and b (0 <= f <= 1.0)
@@ -27,7 +41,7 @@ function avg(a, b, f) {
 function poly(verts, color){
     this.verts = verts;
     this.color = color;
-    this.color = "rgb("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+")";
+    //this.color = "rgb("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+")";
     this.draw = function(){
         draw(this.verts, this.color);
     }
@@ -51,7 +65,7 @@ function poly(verts, color){
                 var s1 = new poly([A, B, E, F], this.color);
                 var s2 = new poly([B, C, D, E], this.color);
                 s1.reverse();
-                //s2.reverse();
+                s2.reverse();
             }
             var t1 = new poly([this.verts[0], this.verts[2], A], this.color);
             var t2 = new poly([D, this.verts[1], C], this.color);

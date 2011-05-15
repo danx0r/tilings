@@ -89,4 +89,6 @@ main = function(){
     s2.draw();
     t1 = s2.polys[0].subdivide();
     t1.draw();
+    s3 = t1.polys[0].subdivide();
+    s3.draw();
 }

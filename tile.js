@@ -46,6 +46,7 @@ function poly(verts, color){
             var t2 = new poly([D, this.verts[1], C], this.color)
             var t3 = new poly([this.verts[2], D, F], this.color)
             s1.reverse();
+            s2.reverse();
             return new plist([s1, s2, t1, t2, t3]);
         }
         // if square.. (assume clockwise)

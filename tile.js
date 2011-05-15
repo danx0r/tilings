@@ -15,19 +15,18 @@ function draw(verts, fill) {
     con.stroke();
 }
 
+function poly(verts, color) {
+    this.verts=verts;
+    this.color=color;
+    this.draw = function () {
+        draw(this.verts, this.color);
+    }
+}
 
 main = function(){
     can = document.getElementById("can");
     con = can.getContext('2d');
-    /*
-    con.beginPath();
-    con.lineTo(100, 100);
-    con.lineTo(300, 200);
-    con.lineTo(100, 200);
-    con.closePath()
-    con.fillStyle = "rgb(200,200,155)";
-    con.fill();
-    con.stroke();
-    */
-   draw([[100,100],[300,200],[100,150]], "rgb(150,180,150)");
+//   draw([[100,100],[300,200],[100,150]], "rgb(150,180,150)");
+    var tri = new poly([[100,100],[300,200],[100,150]], "rgb(150,180,150)");
+    tri.draw();
 }

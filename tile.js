@@ -72,6 +72,9 @@ function poly(verts, color){
     }
     
     this.subrec = function(lev) {
+        if (lev==0) {
+            return this;
+        }
         var sub = this.subdivide();
         if (lev==1) {
             return sub;
@@ -101,7 +104,7 @@ function plist(polys) {
     }
 }
 
-g_lev=1;
+g_lev=0;
 main = function(){
     can = document.getElementById("can");
     con = can.getContext('2d');

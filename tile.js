@@ -68,10 +68,21 @@ function poly(verts, color){
             alert("can't subdivide except tri's and squares")
         }
     }
+    
+    this.subrec = function(lev) {
+        var sub = this.subdivide();
+        if (lev==1) {
+            return sub;
+        }
+        for(var i=0; i<sub.polys.length; i++) {
+            sub.polys[i] = sub.polys[i].subrec(lev-1);
+        }
+        return sub;
+    }
 }
 
 function plist(polys) {
-    console.log("polys:", polys)
+//    console.log("polys:", polys)
     this.polys = polys;
     this.draw = function () {
         for (p in this.polys) {
@@ -84,13 +95,8 @@ main = function(){
     can = document.getElementById("can");
     con = can.getContext('2d');
 //   draw([[100,100],[300,200],[100,150]], "rgb(150,180,150)");
-    var sq = new poly([[0,0], [500,0], [500,500], [0,500]], "rgb(150,180,150)");
-    s2 = sq.subdivide();
-    s2.draw();
-    t1 = s2.polys[0].subdivide();
-    t1.draw();
-    s3 = t1.polys[0]
-    s3 = new poly([s3.verts[3],s3.verts[2],s3.verts[1],s3.verts[0]], "rgb(230,0,100)")
-    s3 = s3.subdivide();
-    s3.draw();
+    var col = "rgb(150,150,150)";
+    var sq = new poly([[0,0], [500,0], [500,500], [0,500]], col);
+    sq = sq.subrec(3);
+    sq.draw();
 }

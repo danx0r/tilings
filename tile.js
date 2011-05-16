@@ -5,7 +5,7 @@
 TRI5=0;
 DECTRI=1;
 DECSQ=0;
-REV1=1;
+REV1=0;
 REV2=1;
 SIZE=1000;
 
@@ -33,7 +33,7 @@ function draw(verts, fill){
             con.fill();
         }
     }
-    if (DECSQ) {
+    if (DECSQ==1) {
         if (verts.length == 4) {
             con.beginPath();
             con.moveTo(verts[0][0], verts[0][1]);
@@ -43,6 +43,14 @@ function draw(verts, fill){
             //con.closePath();
             //con.fillStyle="rgb(100,100,100)";
             //con.fill();
+        }
+    }
+    if (DECSQ==2) {
+        if (verts.length == 4) {
+            con.beginPath();
+            con.moveTo(verts[1][0], verts[1][1]);
+            con.lineTo(verts[3][0], verts[3][1]);
+            con.stroke();
         }
     }
 }

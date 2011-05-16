@@ -2,36 +2,39 @@
  * @author dbm
  */
 
-TRI5=1;
-DECORATE=0;
-REV1=1;
-REV2=1;
+TRI5=0;
+DECTRI=1;
+DECSQ=0;
+REV1=0;
+REV2=0;
 SIZE=1000;
 
-function draw(verts, fill) {
+function draw(verts, fill){
     con.beginPath();
-    con.moveTo(verts[0][0],verts[0][1]);
-    for (var i=1; i<verts.length; i++) {
-//        console.log("lineTo:", verts[i])
+    con.moveTo(verts[0][0], verts[0][1]);
+    for (var i = 1; i < verts.length; i++) {
+        //        console.log("lineTo:", verts[i])
         con.lineTo(verts[i][0], verts[i][1]);
     }
     con.closePath();
-    con.fillStyle=fill;
+    con.fillStyle = fill;
     con.fill();
     con.stroke();
-    if(DECORATE) {
-        if(verts.length==3) {
-            var A = avg(verts[2], verts[1], 1.0/2.0);
+    if (DECTRI) {
+        if (verts.length == 3) {
+            var A = avg(verts[2], verts[1], 1.0 / 2.0);
             con.beginPath();
             con.moveTo(verts[0][0], verts[0][1]);
             con.lineTo(A[0], A[1]);
             con.stroke();
             con.lineTo(verts[1][0], verts[1][1]);
             con.closePath();
-            con.fillStyle="rgb(200,0,0)";
+            con.fillStyle = "rgb(200,0,0)";
             con.fill();
         }
-        if(verts.length==4) {
+    }
+    if (DECSQ) {
+        if (verts.length == 4) {
             con.beginPath();
             con.moveTo(verts[0][0], verts[0][1]);
             con.lineTo(verts[2][0], verts[2][1]);
@@ -153,10 +156,12 @@ main = function(){
 
 up = function() {
     g_lev++;
+    document.getElementById("level").innerHTML="level: " + g_lev;
     main();
 }
 
 down = function() {
     g_lev--;
+    document.getElementById("level").innerHTML="level: " + g_lev;
     main();
 }

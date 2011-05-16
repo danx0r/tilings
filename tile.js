@@ -5,8 +5,8 @@
 TRI5=0;
 DECTRI=1;
 DECSQ=0;
-REV1=0;
-REV2=0;
+REV1=1;
+REV2=1;
 SIZE=1000;
 
 function draw(verts, fill){

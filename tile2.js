@@ -31,6 +31,12 @@ function draw(verts, fill){
             con.closePath();
             con.fillStyle = "rgb(200,0,0)";
             con.fill();
+            con.beginPath();
+            con.moveTo(verts[2][0], verts[2][1]);
+            con.lineTo(A[0], A[1]);
+            con.lineTo(verts[0][0], verts[0][1]);
+            con.fillStyle = "rgb(130,130,130)";
+            con.fill();
         }
     }
     if (DECSQ==1) {

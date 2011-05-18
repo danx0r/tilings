@@ -9,6 +9,8 @@ REV1=0;
 REV2=1;
 SIZE=1000;
 
+RZ = (1/3) / (1/3 + 3)
+
 function draw(verts, fill){
     con.beginPath();
     con.moveTo(verts[0][0], verts[0][1]);
@@ -98,20 +100,42 @@ function poly(verts, color){
         }
         // if square.. (assume clockwise)
         if (this.verts.length == 4) {
-            var A = avg(this.verts[0], this.verts[2], 1.0/5.0);
-            var B = avg(this.verts[1], this.verts[3], 1.0/5.0);
-            var C = avg(this.verts[2], this.verts[0], 1.0/5.0);
-            var D = avg(this.verts[3], this.verts[1], 1.0/5.0);
-            var E = avg(A, B, 2.0/3.0);
-            var F = avg(B, C, 2.0/3.0);
-            var G = avg(C, D, 2.0/3.0);
-            var H = avg(D, A, 2.0/3.0);
-            var t1 = new poly([this.verts[0], this.verts[1], H], this.color)
-            var t2 = new poly([this.verts[1], this.verts[2], E], this.color)
-            var t3 = new poly([this.verts[2], this.verts[3], F], this.color)
-            var t4 = new poly([this.verts[3], this.verts[0], G], this.color)
-            var sq = new poly([E,F,G,H], this.color);
-            return new plist([t1, t2, t3, t4, sq]);
+        	var V0 = this.verts[0];
+        	var V1 = this.verts[1];
+        	var V2 = this.verts[2];
+        	var V3 = this.verts[3];
+
+            var A = avg(V0, V1, 3.0/4.0);
+            var B = avg(V1, V2, 3.0/4.0);
+            var C = avg(V2, V3, 3.0/4.0);
+            var D = avg(V3, V0, 3.0/4.0);
+
+			var E3 = avg(A, D, 1/3);
+			var E = avg(E3, B, RZ);
+
+			var F3 = avg(B, A, 1/3);
+			var F = avg(F3, C, RZ);
+
+			var G3 = avg(C, B, 1/3);
+			var G = avg(G3, D, RZ);
+
+			var H3 = avg(D, C, 1/3);
+			var H = avg(H3, A, RZ);
+
+            var t1 = new poly([D, A, V0], this.color)
+            var t2 = new poly([D, A, H], this.color)
+
+            var t3 = new poly([A, B, V1], this.color)
+            var t4 = new poly([A, B, E], this.color)
+
+            var t5 = new poly([B, C, V2], this.color)
+            var t6 = new poly([B, C, F], this.color)
+
+            var t7 = new poly([C, D, V3], this.color)
+            var t8 = new poly([C, D, G], this.color)
+
+            var sq = new poly([E, F, G, H], this.color);
+            return new plist([t1, t2, t3, t4, t5, t6, t7, t8]);
         }
         else {
             alert("can't subdivide except tri's and squares")
@@ -151,7 +175,7 @@ function plist(polys) {
     }
 }
 
-g_lev=0;
+g_lev=1;
 main = function(){
     can = document.getElementById("can");
     con = can.getContext('2d');

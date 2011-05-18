@@ -3,7 +3,7 @@
  */
 
 TRI5=0;
-DECTRI=0;
+DECTRI=1;
 DECSQ=0;
 REV1=0;
 REV2=1;

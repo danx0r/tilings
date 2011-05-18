@@ -77,26 +77,17 @@ function poly(verts, color){
     
         // if triangle...
         if (this.verts.length == 3) {
-            var A = avg(this.verts[0], this.verts[1], 1.0/5.0);
-            var B = avg(this.verts[0], this.verts[1], 2.0/5.0);
-            var C = avg(this.verts[0], this.verts[1], 3.0/5.0);
-            var D = avg(this.verts[1], this.verts[2], 1.0/2.0);
-            var F = avg(this.verts[2], A, 1.0/2.0);
-            var E = avg(D, F, 1.0/2.0);
-            if (TRI5) {
-                var s1 = new poly([D, A, C], this.color);
-                var s2 = new poly([A, D, F], this.color)//"rgb(200,0,0)")
-            }
-            else {
-                var s1 = new poly([A, B, E, F], this.color);
-                var s2 = new poly([B, C, D, E], this.color);
-                if(REV1) s1.reverse();
-                if(REV2) s2.reverse();
-            }
-            var t1 = new poly([this.verts[0], this.verts[2], A], this.color);
-            var t2 = new poly([D, this.verts[1], C], this.color);
-            var t3 = new poly([this.verts[2], D, F], this.color);
-            return new plist([s1, s2, t1, t2, t3]);
+        	var V0 = this.verts[0];
+        	var V1 = this.verts[1];
+        	var V2 = this.verts[2];
+        	var A = avg(V0, V1, 0.5);
+        	var B = avg(V1, V2, 0.5);
+        	var C = avg(V2, V0, 0.5);
+        	var t1 = new poly([V0, A, C], this.color);
+        	var t2 = new poly([C, B, V2], this.color);
+        	var t3 = new poly([A, V1, B], this.color);
+        	var t4 = new poly([B, C, A], this.color);
+            return new plist([t1, t2, t3, t4]);
         }
         // if square.. (assume clockwise)
         if (this.verts.length == 4) {
@@ -135,7 +126,7 @@ function poly(verts, color){
             var t8 = new poly([C, D, G], this.color)
 
             var sq = new poly([E, F, G, H], this.color);
-            return new plist([t1, t2, t3, t4, t5, t6, t7, t8]);
+            return new plist([t1, t2, t3, t4, t5, t6, t7, t8, sq]);
         }
         else {
             alert("can't subdivide except tri's and squares")

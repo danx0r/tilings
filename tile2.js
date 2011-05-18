@@ -4,12 +4,12 @@
 
 TRI5=0;
 DECTRI=1;
-DECSQ=0;
+DECSQ=1;
 SIZE=1000;
 
 RZ = (1/3) / (1/3 + 3)
 
-function draw(verts, fill){
+function draw(verts, fill, dec){
     con.beginPath();
     con.moveTo(verts[0][0], verts[0][1]);
     for (var i = 1; i < verts.length; i++) {
@@ -20,44 +20,54 @@ function draw(verts, fill){
     con.fillStyle = fill;
     con.fill();
     con.stroke();
-    if (DECTRI) {
-        if (verts.length == 3) {
-            var A = avg(verts[2], verts[1], 1.0 / 2.0);
-            con.beginPath();
-            con.moveTo(verts[0][0], verts[0][1]);
-            con.lineTo(A[0], A[1]);
-            con.stroke();
-            con.lineTo(verts[1][0], verts[1][1]);
-            con.closePath();
-            con.fillStyle = "rgb(200,0,0)";
-            con.fill();
-            con.beginPath();
-            con.moveTo(verts[2][0], verts[2][1]);
-            con.lineTo(A[0], A[1]);
-            con.lineTo(verts[0][0], verts[0][1]);
-            con.fillStyle = "rgb(130,130,130)";
-            con.fill();
-        }
-    }
-    if (DECSQ==1) {
-        if (verts.length == 4) {
-            con.beginPath();
-            con.moveTo(verts[0][0], verts[0][1]);
-            con.lineTo(verts[2][0], verts[2][1]);
-            con.stroke();
-            //con.lineTo(verts[3][0], verts[3][1]);
-            //con.closePath();
-            //con.fillStyle="rgb(100,100,100)";
-            //con.fill();
-        }
-    }
-    if (DECSQ==2) {
-        if (verts.length == 4) {
-            con.beginPath();
-            con.moveTo(verts[1][0], verts[1][1]);
-            con.lineTo(verts[3][0], verts[3][1]);
-            con.stroke();
-        }
+    if (dec) {
+		if (DECTRI) {
+		    if (verts.length == 3) {
+		        var A = avg(verts[2], verts[1], 1.0 / 2.0);
+		        con.beginPath();
+		        con.moveTo(verts[0][0], verts[0][1]);
+		        con.lineTo(A[0], A[1]);
+	            con.stroke();
+		        con.lineTo(verts[1][0], verts[1][1]);
+		        con.closePath();
+		        con.fillStyle = "rgb(20,130,130)";
+		        con.fill();
+		        con.beginPath();
+		        con.moveTo(verts[2][0], verts[2][1]);
+		        con.lineTo(A[0], A[1]);
+		        con.lineTo(verts[0][0], verts[0][1]);
+//		        con.fillStyle = "rgb(130,130,130)";
+//		        con.fill();
+		    }
+		}
+		if (DECSQ==1) {
+		    if (verts.length == 4) {
+				var V0 = [verts[0][0], verts[0][1]];
+				var V1 = [verts[1][0], verts[1][1]];
+				var V2 = [verts[2][0], verts[2][1]];
+				var V3 = [verts[3][0], verts[3][1]];
+		        var A = avg(V0, V1, 2.0/4.0);
+		        var B = avg(V1, V2, 2.0/4.0);
+		        var C = avg(V2, V3, 2.0/4.0);
+		        var D = avg(V3, V0, 2.0/4.0);
+		        con.beginPath();
+		        con.moveTo(A[0], A[1]);
+		        con.lineTo(C[0], C[1]);
+		        con.stroke();
+		        con.beginPath();
+		        con.moveTo(B[0], B[1]);
+		        con.lineTo(D[0], D[1]);
+		        con.stroke();
+		    }
+		}
+		if (DECSQ==2) {
+		    if (verts.length == 4) {
+		        con.beginPath();
+		        con.moveTo(verts[1][0], verts[1][1]);
+		        con.lineTo(verts[3][0], verts[3][1]);
+		        con.stroke();
+		    }
+		}
     }
 }
 
@@ -73,7 +83,7 @@ function poly(verts, color){
     this.color = color;
     //this.color = "rgb("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+")";
     this.draw = function(){
-        draw(this.verts, this.color);
+        draw(this.verts, this.color, !this.rect);
     }
     
     // crux of matter: return 5 sub-polys acc to pinwheel logic
@@ -86,12 +96,20 @@ function poly(verts, color){
         	var A = avg(V0, V1, 0.5);
         	var B = avg(V1, V2, 0.5);
         	var C = avg(V2, V0, 0.5);
+        	var D = avg(A, C, 2/3);
+        	var E = avg(A, C, 1/3);
+        	var F = avg(B, V2, 1/3);
+        	var G = avg(B, V2, 2/3);
         	var t1 = new poly([V0, A, C], this.color);
-        	var t2 = new poly([C, A, B, V2], this.color);
-        	t2.rect = 1;
+        	var t2a = new poly([C, D, G, V2], this.color);
+        	t2a.rect = 1;
+        	var t2b = new poly([D, E, F, G], this.color);
+        	t2b.rect = 1;
+        	var t2c = new poly([E, A, B, F], this.color);
+        	t2c.rect = 1;
         	var t3 = new poly([A, V1, B], this.color);
         	//var t4 = new poly([B, C, A], this.color);
-            return new plist([t1, t2, t3]);
+            return new plist([t1, t2a, t2b, t2c, t3]);
         }
         // if square.. (assume clockwise)
         if (this.verts.length == 4) {

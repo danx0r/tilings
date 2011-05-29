@@ -23,21 +23,26 @@ function draw(verts, fill, dec){
     if (dec) {
 		if (DECTRI) {
 		    if (verts.length == 3) {
-		        var A = avg(verts[2], verts[1], 1.0 / 2.0);
+		        var A = avg(verts[2], verts[1], 1.0 / 3.0);
+                var B = avg(verts[0], verts[1], 1.0 / 2.66);
 		        con.beginPath();
-		        con.moveTo(verts[0][0], verts[0][1]);
+		        con.moveTo(B[0], B[1]);
 		        con.lineTo(A[0], A[1]);
 	            con.stroke();
 		        con.lineTo(verts[1][0], verts[1][1]);
 		        con.closePath();
-		        con.fillStyle = "rgb(20,130,130)";
+		        con.fillStyle = "rgb(150,150,150)";
 		        con.fill();
-		        con.beginPath();
-		        con.moveTo(verts[2][0], verts[2][1]);
-		        con.lineTo(A[0], A[1]);
-		        con.lineTo(verts[0][0], verts[0][1]);
-//		        con.fillStyle = "rgb(130,130,130)";
-//		        con.fill();
+                var A = avg(verts[2], verts[1], 2.0 / 3.0);
+                var B = avg(verts[0], verts[1], 1.0 / 2.66);
+                con.beginPath();
+                con.moveTo(B[0], B[1]);
+                con.lineTo(A[0], A[1]);
+                con.stroke();
+                con.lineTo(verts[1][0], verts[1][1]);
+                con.closePath();
+                con.fillStyle = "rgb(20,130,130)";
+                con.fill();
 		    }
 		}
 		if (DECSQ==1) {

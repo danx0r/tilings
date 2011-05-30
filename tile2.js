@@ -34,7 +34,7 @@ function draw(verts, fill, dec){
 		        con.fillStyle = "rgb(150,150,150)";
 		        con.fill();
                 var A = avg(verts[2], verts[1], 2.0 / 3.0);
-                var B = avg(verts[0], verts[1], 1.0 / 2.72076);
+                var B = avg(verts[0], verts[1], 1.0 / 2.5);
                 con.beginPath();
                 con.moveTo(B[0], B[1]);
                 con.lineTo(A[0], A[1]);
